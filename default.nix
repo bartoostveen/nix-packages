@@ -1,12 +1,6 @@
 {
   system ? builtins.currentSystem,
   pkgs ? import <nixpkgs> { inherit system; },
-  suppressSystemWarning ?
-    if pkgs ? _bartPackages.suppressSystemWarning then
-      pkgs._bartPackages.suppressSystemWarning
-    else
-      false,
-  prefix ? if pkgs ? _bartPackages.prefix then pkgs._bartPackages.prefix else null,
   ...
 }:
 
@@ -22,6 +16,11 @@ let
     packagesFromDirectoryRecursive
     warn
     ;
+
+  conf = if pkgs ? _bartPackages then pkgs._bartPackages else { };
+
+  suppressSystemWarning = if conf ? suppressSystemWarning then conf.suppressSystemWarning else false;
+  prefix = if conf ? prefix then conf.prefix else null;
 
   packages = packagesFromDirectoryRecursive {
     directory = ./pkgs;
@@ -42,9 +41,11 @@ let
           Contributions welcome!
           Suppress this warning by:
 
-            1a) when using nix-env: importing the packages with "suppressSystemWarning = true;"
-            1b)                     dito, with the overlay: "(_final: _prev: { _bartPackages.suppressSystemWarning = true; })"
-            2 ) when using flakes:  using the overlay:
+            1) when using nix-env:  importing the packages with with the overlay:
+                                    "(_final: _prev: { _bartPackages.suppressSystemWarning = true; })"
+
+                                    See also: https://git.bartoostveen.nl/bart/nix-packages#configuration
+            2) when using flakes:   using the overlay:
                                       overlays = [
                                         inputs.bart-packages.overlays.default
                                         inputs.bart-packages.overlays.suppressSystemWarning
