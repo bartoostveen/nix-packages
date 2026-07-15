@@ -47,8 +47,8 @@ let
                                     See also: https://git.bartoostveen.nl/bart/nix-packages#configuration
             2) when using flakes:   using the overlay:
                                       overlays = [
-                                        inputs.bart-packages.overlays.default
                                         inputs.bart-packages.overlays.suppressSystemWarning
+                                        inputs.bart-packages.overlays.default
                                       ];
         ''
     )

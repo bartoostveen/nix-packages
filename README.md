@@ -86,14 +86,14 @@ You may configure this package set through overlays:
 ```nix
 import inputs.nixpkgs {
   overlays = [
-    # Optional: if packages not yet imported otherwise
-    inputs.bart-packages.overlays.default
     (_: _: {
       _bartPackages = {
         suppressSystemWarning = true;
         prefix = "bart";
       };
     })
+    # Optional: if packages not yet imported otherwise
+    inputs.bart-packages.overlays.default
   ]
 }
 ```
