@@ -1,0 +1,13 @@
+name: nix-env check channel
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: lix
+    steps:
+      - run: |
+          nix-channel --add git+https://git.bartoostveen.nl/bart/nix-packages.git bart-packages
+          nix-channel --update
+          nix-instantiate --eval -E 'import <bart-packages> { }'
+
