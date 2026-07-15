@@ -24,8 +24,13 @@
       ];
 
       flake.overlays = {
-        default = final: _: final.callPackages ./default.nix { };
-        suppressSystemWarning = (_: _: { _bartPackages.suppressSystemWarning = true; });
+        default =
+          _: prev:
+          import ./default.nix {
+            system = prev.stdenv.system;
+            pkgs = prev;
+          };
+        suppressSystemWarning = _: _: { _bartPackages.suppressSystemWarning = true; };
       };
 
       perSystem =
