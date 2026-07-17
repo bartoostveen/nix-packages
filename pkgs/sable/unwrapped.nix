@@ -14,18 +14,14 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "sable";
-  version = "1.19.4";
+  version = "1.20.0";
 
   src = fetchFromGitHub {
     owner = "SableClient";
     repo = "Sable";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-GI4ZXmqPTWt3WlTQDkjVfRWhiJnd3mdq5paA3/TGMEA=";
+    hash = "sha256-ams6Uwblo5mUzah9hlCPCUMXtrLtiUtRWwwKH4uabmk=";
   };
-
-  patches = [
-    ./0001-warming-up.patch
-  ];
 
   nativeBuildInputs = [
     pnpm
