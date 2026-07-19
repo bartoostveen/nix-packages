@@ -12,6 +12,8 @@ else
     pname = "${unwrapped.pname}-wrapped";
     inherit (unwrapped) version meta;
 
+    passthru = { inherit conf; };
+
     dontUnpack = true;
     installPhase = ''
       runHook preInstall
