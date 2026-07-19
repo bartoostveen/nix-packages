@@ -33,6 +33,10 @@
         suppressSystemWarning = _: _: { _bartPackages.suppressSystemWarning = true; };
       };
 
+      flake = {
+        hydraJobs = inputs.self.legacyPackages.x86_64-linux;
+      };
+
       perSystem =
         {
           pkgs,
