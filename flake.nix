@@ -49,10 +49,7 @@
             |> filterAttrs (system: _: system == "x86_64-linux")
             |> mapAttrs (
               _: jobs:
-              mapAttrs (
-                _: job: if !(isDerivation job) && builtins.isAttrs job then filterAttrs (_: isDerivation) else job
-              ) jobs
-              |> filterAttrs (_: job: builtins.isAttrs job || isDerivation job)
+              filterAttrs (_: job: builtins.isAttrs job || isDerivation job) jobs
             );
         };
 
