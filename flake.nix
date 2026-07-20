@@ -47,10 +47,7 @@
           hydraJobs =
             inputs.self.legacyPackages
             |> filterAttrs (system: _: system == "x86_64-linux")
-            |> mapAttrs (
-              _: jobs:
-              filterAttrs (_: job: builtins.isAttrs job || isDerivation job) jobs
-            );
+            |> mapAttrs (_: jobs: filterAttrs (_: job: builtins.isAttrs job || isDerivation job) jobs);
         };
 
         perSystem =
