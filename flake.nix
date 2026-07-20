@@ -45,9 +45,21 @@
 
         flake = {
           hydraJobs =
+            let
+              filter =
+                obj:
+                if builtins.isFunction obj || obj ? __functor then
+                  null
+                else if isDerivation obj then
+                  obj
+                else if builtins.isAttrs obj then
+                  (if obj == { } then null else obj |> mapAttrs (_: filter) |> filterAttrs (_: attr: attr != null))
+                else
+                  null;
+            in
             inputs.self.legacyPackages
             |> filterAttrs (system: _: system == "x86_64-linux")
-            |> mapAttrs (_: jobs: filterAttrs (_: job: builtins.isAttrs job || isDerivation job) jobs);
+            |> mapAttrs (_: filter);
         };
 
         perSystem =
