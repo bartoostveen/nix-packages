@@ -10,20 +10,20 @@
 
 buildGoModule (finalAttrs: {
   pname = "venator";
-  version = "0.1.0a2";
+  version = "0-unstable-2026-07-21";
 
   __structuredAttrs = true;
   strictDeps = true;
 
   src = fetchFromGitea {
     domain = "codeberg.org";
-    owner = "timedout";
+    owner = "matrix-venator";
     repo = "venator";
-    tag = finalAttrs.version;
-    hash = "sha256-P6eGj4foZf1DPHD6xD3rhkOWRZ81g++wn5T+O2yNsNg=";
+    rev = "36446c80b7573873cc8ddce75d476ce724fe505a";
+    hash = "sha256-+lpOE8wYTprvBQX6Hz5UP1veDZ8/P+bitJrXMzcKcFU=";
   };
 
-  vendorHash = "sha256-ZI27vi362YozkggQW7gbJQTCqaJgs/fN08V5F6m5Qdc=";
+  vendorHash = "sha256-1k27rRrE5dohKLi+72VoglbvDN2KJkOOFMknUBqAMhY=";
 
   preBuild = lib.optionalString withDocs ''
     if [ -d vendor ]; then
