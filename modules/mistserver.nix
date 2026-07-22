@@ -38,7 +38,7 @@ in
       description = ''
         Settings for the config.json file
 
-        :::{warning}
+        ::: {.warning}
         These settings will be world-readable, do not use for secrets!
         Instead, specify a config file in {option}`services.mistserver.configFile`.
         These settings get merged with {option}`services.mistserver.settings`.
