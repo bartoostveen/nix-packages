@@ -61,7 +61,7 @@ in
       description = "mistserver, a streaming server";
       wantedBy = [ "multi-user.target" ];
       preStart = optionalString (cfg.configFile != null) ''
-        jq -s 'reduce .[] as $obj ({}; . * $obj)' ${cfg.configFile} ${settingsJson} > ${runtimeConfigFile}
+        ${pkgs.stdenv-linux}/bin/jq -s 'reduce .[] as $obj ({}; . * $obj)' ${cfg.configFile} ${settingsJson} > ${runtimeConfigFile}
         chmod 0660 ${runtimeConfigFile}
       '';
       script = ''
