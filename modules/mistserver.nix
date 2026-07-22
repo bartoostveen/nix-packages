@@ -80,7 +80,6 @@ in
         PrivateDevices = true;
         PrivateTmp = true;
         ProtectHome = true;
-        ProtectSystem = "strict";
         ProtectControlGroups = true;
         RestrictSUIDSGID = true;
         RestrictRealtime = true;
