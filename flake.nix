@@ -37,7 +37,7 @@
           default =
             _: prev:
             import ./default.nix {
-              system = prev.stdenv.system;
+              inherit (prev.stdenv.hostPlatform) system;
               pkgs = prev;
             };
           suppressSystemWarning = _: _: { _bartPackages.suppressSystemWarning = true; };
