@@ -102,7 +102,6 @@ in
         443 # HTTPS/HSLS
         1935 # RTMP
         4200 # DTSC
-        4242
         4433 # Extra HTTPS/HSLS
         5554 # RTSP
         8080 # HTTP/HLS
