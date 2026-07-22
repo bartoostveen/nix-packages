@@ -1,22 +1,23 @@
-From 277b689e68ed1e61e1f2c0517f1f00bc32d396fc Mon Sep 17 00:00:00 2001
+From 8bc249741b8fb4fbb8257c8efba23b6a600e8097 Mon Sep 17 00:00:00 2001
 From: Bart Oostveen <bart@bartoostveen.nl>
 Date: Mon, 6 Jul 2026 23:25:15 +0200
 Subject: [PATCH 3/4] fix(build): do not run commands silently
 
 ---
- tools/build-scripts/build.mjs | 133 ++++++++--------------------------
- 1 file changed, 30 insertions(+), 103 deletions(-)
+ tools/build-scripts/build.mjs | 145 ++++++++++------------------------
+ 1 file changed, 42 insertions(+), 103 deletions(-)
 
 diff --git a/tools/build-scripts/build.mjs b/tools/build-scripts/build.mjs
-index fc2f6aaca27..8d4acfe79cd 100644
+index 7c5346e4fd4..159b2d673d6 100644
 --- a/tools/build-scripts/build.mjs
 +++ b/tools/build-scripts/build.mjs
-@@ -3,75 +3,33 @@
+@@ -3,75 +3,39 @@
  /**
   * External dependencies
   */
 -import spawn from 'cross-spawn';
  import { fileURLToPath } from 'url';
+ import { parseArgs } from 'util';
  import path from 'path';
 +import { spawn } from 'child_process';
  
@@ -31,33 +32,24 @@ index fc2f6aaca27..8d4acfe79cd 100644
 - * @param {Object}   options Spawn options.
 - * @return {Promise<void>} Promise that resolves when command completes.
 - */
--function exec( command, args = [], options = {} ) {
+ function exec( command, args = [], options = {} ) {
 -	const silent = options.silent || false;
 -	const spawnOptions = { ...options };
 -	delete spawnOptions.silent;
 -
--	return new Promise( ( resolve, reject ) => {
+ 	return new Promise( ( resolve, reject ) => {
 -		const childOptions = {
-+function exec(command, args = [], options = {}) {
-+    return new Promise((resolve, reject) => {
-+        const child = spawn(command, args, {
-+            stdio: 'inherit',
++		const child = spawn( command, args, {
++			stdio: 'inherit',
  			cwd: ROOT_DIR,
 -			stdio: silent ? 'pipe' : 'inherit',
 -			...spawnOptions,
 -		};
-+            ...options
-+        });
++			...options,
++		} );
  
 -		const child = spawn( command, args, childOptions );
-+        child.on('close', (code) => {
-+            if (code === 0) {
-+                resolve();
-+            } else {
-+                reject(new Error(`Command "${command} ${args.join(' ')}" failed with exit code ${code}`));
-+            }
-+        });
- 
+-
 -		// If silent, capture output to show only on error
 -		let stdout = '';
 -		let stderr = '';
@@ -76,9 +68,10 @@ index fc2f6aaca27..8d4acfe79cd 100644
 -		}
 -
 -		child.on( 'exit', ( code ) => {
--			if ( code === 0 ) {
--				resolve();
--			} else {
++		child.on( 'close', ( code ) => {
+ 			if ( code === 0 ) {
+ 				resolve();
+ 			} else {
 -				// On error, show captured output if it was silent
 -				if ( silent && ( stdout || stderr ) ) {
 -					if ( stdout ) {
@@ -88,24 +81,25 @@ index fc2f6aaca27..8d4acfe79cd 100644
 -						process.stderr.write( stderr );
 -					}
 -				}
--				reject(
--					new Error(
+ 				reject(
+ 					new Error(
 -						`Command failed: ${ command } ${ args.join( ' ' ) }`
--					)
--				);
--			}
--		} );
--
++						`Command "${ command } ${ args.join(
++							' '
++						) }" failed with exit code ${ code }`
+ 					)
+ 				);
+ 			}
+ 		} );
+ 
 -		child.on( 'error', reject );
--	} );
-+        child.on('error', (err) => {
-+            reject(err);
-+        });
-+    });
++		child.on( 'error', ( err ) => {
++			reject( err );
++		} );
+ 	} );
  }
  
- /**
-@@ -85,38 +43,10 @@ async function build() {
+@@ -92,45 +56,8 @@ async function build() {
  	const startTime = Date.now();
  
  	try {
@@ -129,37 +123,54 @@ index fc2f6aaca27..8d4acfe79cd 100644
 -				'@wordpress/validation-tools',
 -				'--silent',
 -			] ).catch( () => {
--				throw new Error( 'Run `npm install` to update.' );
+-				throw new Error(
+-					'Run `npm install` to update, or set GUTENBERG_CHECK_INSTALLED_DEPS=NEVER to skip this check.'
+-				);
 -			} );
 -		}
 -
 -		console.log( '\n🧹 Cleaning packages...' );
--		await exec( 'npm', [ 'run', 'clean:packages' ], { silent: true } );
+-		await exec(
+-			'node',
+-			[ path.join( __dirname, 'clean.mjs' ), '--packages' ],
+-			{ silent: true }
+-		);
 -
  		console.log( '\n📦 Building workspaces...' );
- 		await exec(
- 			'npm',
+-		await exec(
+-			'npm',
 -			[ 'run', '--if-present', '--workspaces', '--silent', 'build' ],
 -			{ silent: true }
-+			[ 'run', '--if-present', '--workspaces', 'build' ],
- 		);
+-		);
++		await exec( 'npm', [ 'run', '--if-present', '--workspaces', 'build' ] );
  
  		// This must happen before TypeScript compilation because some packages
-@@ -155,9 +85,10 @@ async function build() {
+ 		// (like vips) have source files that import from generated worker-code.ts
+@@ -168,9 +95,20 @@ async function build() {
  		const buildArgs = process.argv
  			.slice( 2 )
  			.filter( ( arg ) => arg !== '--skip-types' );
 -		await exec( 'wp-build', buildArgs, {
 -			env: { ...process.env, NODE_ENV: 'production' },
 -		} );
-+        await exec('node', [
-+            path.join(ROOT_DIR, 'node_modules/@wordpress/build/lib/build.mjs'),
-+            ...buildArgs
-+        ], { stdio: 'inherit', env: { ...process.env, NODE_ENV: 'production' } });
++		await exec(
++			'node',
++			[
++				path.join(
++					ROOT_DIR,
++					'node_modules/@wordpress/build/lib/build.mjs'
++				),
++				...buildArgs,
++			],
++			{
++				stdio: 'inherit',
++				env: { ...process.env, NODE_ENV: 'production' },
++			}
++		);
  
  		console.log( '\n📦 Building blocks manifests...' );
  		const blocksDirs = [
-@@ -175,22 +106,18 @@ async function build() {
+@@ -188,23 +126,24 @@ async function build() {
  			},
  		];
  		for ( const { input, output } of blocksDirs ) {
@@ -172,23 +183,32 @@ index fc2f6aaca27..8d4acfe79cd 100644
 -				],
 -				{ silent: true }
 -			);
-+            await exec('node', [
-+                path.join(ROOT_DIR, 'node_modules/@wordpress/scripts/bin/wp-scripts.js'),
-+                'build-blocks-manifest',
-+                `--input=${ input }`,
-+                `--output=${ output }`,
-+            ]);
++			await exec( 'node', [
++				path.join(
++					ROOT_DIR,
++					'node_modules/@wordpress/scripts/bin/wp-scripts.js'
++				),
++				'build-blocks-manifest',
++				`--input=${ input }`,
++				`--output=${ output }`,
++			] );
  		}
  
  		console.log( '\n📦 Building workspace :wp targets...' );
- 		await exec(
- 			'npm',
+-		await exec(
+-			'npm',
 -			[ 'run', '--if-present', '--workspaces', '--silent', 'build:wp' ],
 -			{ silent: true }
-+			[ 'run', '--if-present', '--workspaces', 'build:wp' ],
- 		);
+-		);
++		await exec( 'npm', [
++			'run',
++			'--if-present',
++			'--workspaces',
++			'build:wp',
++		] );
  
  		const totalTime = Date.now() - startTime;
+ 		console.log(
 -- 
 2.54.0
 
