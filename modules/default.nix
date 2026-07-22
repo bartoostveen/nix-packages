@@ -1,0 +1,3 @@
+{
+  mistserver = ./mistserver.nix;
+}
