@@ -20,9 +20,12 @@
 
       let
         inherit (lib)
+          # keep-sorted start
           filterAttrs
           mapAttrs
           isDerivation
+          flip
+          # keep-sorted end
           ;
       in
       {
@@ -60,7 +63,10 @@
                 else
                   null;
             in
-            self.legacyPackages |> filterAttrs (system: _: system == "x86_64-linux") |> mapAttrs (_: filter);
+            self.legacyPackages
+            |> filterAttrs (system: _: system == "x86_64-linux")
+            |> mapAttrs (_: filter)
+            |> mapAttrs (_: (flip removeAttrs) [ "_bartPackages" ]);
 
           nixosModules = import ./modules;
         };
