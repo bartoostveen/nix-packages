@@ -3,7 +3,10 @@
 
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -11,7 +14,7 @@
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
+    inputs@{ self, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } (
       { lib, ... }:
 
@@ -57,9 +60,9 @@
                 else
                   null;
             in
-            inputs.self.legacyPackages
-            |> filterAttrs (system: _: system == "x86_64-linux")
-            |> mapAttrs (_: filter);
+            self.legacyPackages |> filterAttrs (system: _: system == "x86_64-linux") |> mapAttrs (_: filter);
+
+          nixosModules = import ./modules;
         };
 
         perSystem =
@@ -84,6 +87,10 @@
                   "olm-3.2.16"
                 ];
               };
+              overlays = [
+                self.overlays.suppressSystemWarning
+                self.overlays.default
+              ];
             };
 
             treefmt = {
@@ -93,6 +100,8 @@
 
             packages = filterAttrs (_: isDerivation) packages;
             legacyPackages = packages;
+
+            checks = import ./tests { inherit lib self; } |> mapAttrs (_: pkgs.testers.runNixOSTest);
           };
       }
     );

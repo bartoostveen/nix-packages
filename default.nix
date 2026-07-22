@@ -22,10 +22,29 @@ let
   suppressSystemWarning = if conf ? suppressSystemWarning then conf.suppressSystemWarning else false;
   prefix = if conf ? prefix then conf.prefix else null;
 
-  packages = packagesFromDirectoryRecursive {
-    directory = ./pkgs;
-    inherit callPackage newScope;
-  };
+  packages =
+    let
+      packages = packagesFromDirectoryRecursive {
+        directory = ./pkgs;
+        inherit callPackage newScope;
+      };
+    in
+    packages
+    // {
+      _bartPackages = packages // {
+        lib.mkPackageOption =
+          pkgs: name: cfg:
+          pkgs.lib.mkPackageOption pkgs name (
+            cfg
+            // {
+              default = [
+                "_bartPackages"
+                name
+              ];
+            }
+          );
+      };
+    };
 
   packagesWithWarning =
     (
