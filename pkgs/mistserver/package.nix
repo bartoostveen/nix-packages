@@ -21,7 +21,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "mistserver";
-  version = "3.11.1";
+  version = "3.11.2";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -30,7 +30,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "ddvtech";
     repo = "mistserver";
     tag = finalAttrs.version;
-    hash = "sha256-wghZp8nNUNAH1gpATZ61JNmk0BrDFPAQqBReM6k/gNY=";
+    hash = "sha256-rr4g1keM3rWJHtnu7BVN7yGFSXxEqgnHGuUp0fipbdE=";
 
     nativeBuildInputs = [
       cacert
