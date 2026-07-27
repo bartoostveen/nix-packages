@@ -32,22 +32,7 @@ let
     in
     packages
     // {
-      _bartPackages =
-        _bartPackages
-        // packages
-        // {
-          lib.mkPackageOption =
-            pkgs: name: cfg:
-            pkgs.lib.mkPackageOption pkgs name (
-              cfg
-              // {
-                default = [
-                  "_bartPackages"
-                  name
-                ];
-              }
-            );
-        };
+      _bartPackages = _bartPackages // packages;
     };
 
   packagesWithWarning =

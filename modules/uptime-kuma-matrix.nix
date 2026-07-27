@@ -7,6 +7,7 @@
 
 let
   inherit (lib)
+    mkPackageOption
     mkEnableOption
     mkOption
     getExe
@@ -54,7 +55,7 @@ in
 {
   options.services.uptime-kuma-matrix = {
     enable = mkEnableOption "uptime-kuma-matrix: Very simple UptimeKuma webhook receiver for Matrix written in Go";
-    package = pkgs._bartPackages.lib.mkPackageOption pkgs "uptime-kuma-matrix" { };
+    package = mkPackageOption pkgs "uptime-kuma-matrix" { };
     settings = mkOption {
       description = "Settings of the webhook receiver";
       type = submodule {

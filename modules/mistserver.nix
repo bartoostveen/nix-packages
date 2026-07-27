@@ -9,6 +9,7 @@ let
   inherit (lib)
     getExe
     mkEnableOption
+    mkPackageOption
     mkOption
     types
     mkIf
@@ -26,7 +27,7 @@ in
 {
   options.services.mistserver = {
     enable = mkEnableOption "mistserver, a streaming server";
-    package = pkgs._bartPackages.lib.mkPackageOption pkgs "mistserver" { };
+    package = mkPackageOption pkgs "mistserver" { };
     openFirewall = mkEnableOption "opening the firewall for Mistserver";
     dataDir = mkOption {
       description = "The data directory for mistserver state and config files";
