@@ -22,9 +22,9 @@
         inherit (lib)
           # keep-sorted start
           filterAttrs
-          mapAttrs
-          isDerivation
           flip
+          isDerivation
+          mapAttrs
           # keep-sorted end
           ;
       in
@@ -102,6 +102,7 @@
             treefmt = {
               programs.nixfmt.enable = true;
               programs.deadnix.enable = true;
+              programs.keep-sorted.enable = true;
             };
 
             packages = filterAttrs (_: isDerivation) packages;
