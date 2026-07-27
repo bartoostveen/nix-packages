@@ -17,10 +17,11 @@ let
     warn
     ;
 
-  conf = if pkgs ? _bartPackages then pkgs._bartPackages else { };
+  _bartPackages = if pkgs ? _bartPackages then pkgs._bartPackages else { };
 
-  suppressSystemWarning = if conf ? suppressSystemWarning then conf.suppressSystemWarning else false;
-  prefix = if conf ? prefix then conf.prefix else null;
+  suppressSystemWarning =
+    if _bartPackages ? suppressSystemWarning then _bartPackages.suppressSystemWarning else false;
+  prefix = if _bartPackages ? prefix then _bartPackages.prefix else null;
 
   packages =
     let
@@ -31,19 +32,22 @@ let
     in
     packages
     // {
-      _bartPackages = packages // {
-        lib.mkPackageOption =
-          pkgs: name: cfg:
-          pkgs.lib.mkPackageOption pkgs name (
-            cfg
-            // {
-              default = [
-                "_bartPackages"
-                name
-              ];
-            }
-          );
-      };
+      _bartPackages =
+        _bartPackages
+        // packages
+        // {
+          lib.mkPackageOption =
+            pkgs: name: cfg:
+            pkgs.lib.mkPackageOption pkgs name (
+              cfg
+              // {
+                default = [
+                  "_bartPackages"
+                  name
+                ];
+              }
+            );
+        };
     };
 
   packagesWithWarning =
