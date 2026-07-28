@@ -10,6 +10,9 @@ buildNpmPackage (finalAttrs: {
   pname = "github-readme-stats";
   version = "0-unstable-2026-05-19";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitHub {
     owner = "bartoostveen";
     repo = "github-readme-stats";

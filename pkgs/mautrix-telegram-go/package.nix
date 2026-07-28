@@ -12,6 +12,9 @@ buildGoModule (finalAttrs: {
   pname = "mautrix-telegram";
   version = "0.2607.0";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitHub {
     owner = "mautrix";
     repo = "telegram";

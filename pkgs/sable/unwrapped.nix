@@ -17,6 +17,9 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "sable";
   version = "1.20.0";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitHub {
     owner = "SableClient";
     repo = "Sable";

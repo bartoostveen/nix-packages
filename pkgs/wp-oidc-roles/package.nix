@@ -9,6 +9,9 @@ php.buildComposerProject2 (finalAttrs: {
   pname = "wp-oidc-roles";
   version = "1.0.0";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitHub {
     owner = "oidc-wp";
     repo = "oidc-wp-roles";

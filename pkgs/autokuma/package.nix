@@ -11,6 +11,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "autokuma";
   version = "2.1.0-rc.2";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitHub {
     owner = "BigBoot";
     repo = "AutoKuma";

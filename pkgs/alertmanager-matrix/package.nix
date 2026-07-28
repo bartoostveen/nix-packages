@@ -9,6 +9,9 @@ buildGoModule (finalAttrs: {
   pname = "alertmanager-matrix";
   version = "0.5.0";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   src = fetchFromGitLab {
     owner = "slxh";
     repo = "matrix/alertmanager_matrix";

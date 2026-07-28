@@ -10,6 +10,9 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "tilp";
   version = "1.18";
 
+  __structuredAttrs = true;
+  strictDeps = true;
+
   nativeBuildInputs = with pkgs; [
     autoconf
     automake
