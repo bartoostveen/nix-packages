@@ -14,7 +14,7 @@ let
   nodejs = nodejs_24;
 in
 stdenv.mkDerivation (finalAttrs: {
-  pname = "sable";
+  pname = "sable-unwrapped";
   version = "1.20.0";
 
   __structuredAttrs = true;
