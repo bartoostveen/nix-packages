@@ -7,7 +7,7 @@
 
 buildGoModule (finalAttrs: {
   pname = "alertmanager-matrix";
-  version = "0.5.0";
+  version = "0.6.1";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -16,14 +16,14 @@ buildGoModule (finalAttrs: {
     owner = "slxh";
     repo = "matrix/alertmanager_matrix";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-/rnsuFaiMEHv19Wd0rHngpmmQk1Ka07gxu7luJa0emQ=";
+    hash = "sha256-HzOS/fuGfNtvr8p+bAM5Ux3o7VGBTRYxroYEwvRdxeY=";
   };
 
   patches = [
     ./0001-fix-proper-color-handing-according-to-spec.patch
   ];
 
-  vendorHash = "sha256-10CKNQ0mCa+k3aFQH/5XvG5LYGyU/gm+kr2eYmqU6AU=";
+  vendorHash = "sha256-bdef/RitGyOKvyoRLIgRK4Y5Q23oSEUEtXvZrkurOhA=";
 
   ldflags = [ "-s" ];
 
