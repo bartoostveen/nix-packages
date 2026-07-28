@@ -1,6 +1,7 @@
 {
   lib,
   fetchFromForgejo,
+  nix-update-script,
   python314Packages,
   stdenv,
   makeWrapper,
@@ -45,6 +46,8 @@ stdenv.mkDerivation (_finalAttrs: {
       makeWrapper ${lib.getExe' pythonEnv "gunicorn"} $out/bin/maubot-exporter \
         --add-flags "--chdir $out/libexec exporter:app"
     '';
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "Simple metrics exporter for maubot";

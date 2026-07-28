@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
   pkgs,
 }:
 
@@ -48,6 +49,8 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out
     ./configure --prefix=$out
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "TILP (formerly GtkTiLink) can transfer data between Texas Instruments graphing calculators and a computer. It works with all link cables (parallel, serial, Black/Gray/Silver/Direct Link) and it supports the TI-Z80 series (73..86), the TI-eZ80 series (83PCE, 84+CE), the TI-68k series (89, 92, 92+, V200, 89T) and the Nspire series (Nspire Clickpad / Touchpad / CX, both CAS and non-CAS";

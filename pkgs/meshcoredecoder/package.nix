@@ -1,6 +1,7 @@
 {
   lib,
   python314Packages,
+  nix-update-script,
 }:
 
 let
@@ -42,6 +43,8 @@ pythonPackages.buildPythonPackage (finalAttrs: {
   pythonImportsCheck = [
     "meshcoredecoder"
   ];
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "Complete Python implementation of the MeshCore Packet Decoder";

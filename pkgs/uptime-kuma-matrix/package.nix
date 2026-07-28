@@ -2,6 +2,7 @@
   lib,
   buildGoModule,
   fetchgit,
+  nix-update-script,
 }:
 
 buildGoModule (_finalAttrs: {
@@ -20,6 +21,8 @@ buildGoModule (_finalAttrs: {
   vendorHash = "sha256-w/ZmNmM9MKnn9UN++ZvVfroRW8KMJHiZddJU0R8gcBE=";
 
   ldflags = [ "-s" ];
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "Very simple UptimeKuma webhook receiver for Matrix written in Go";

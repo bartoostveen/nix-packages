@@ -1,6 +1,7 @@
 {
   lib,
   fetchFromGitHub,
+  nix-update-script,
   rustPlatform,
   pkg-config,
   openssl,
@@ -29,6 +30,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
   postInstall = ''
     mv $out/bin/crdgen $out/bin/autokuma-crdgen
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "Utility that automates the creation of Uptime Kuma monitors";

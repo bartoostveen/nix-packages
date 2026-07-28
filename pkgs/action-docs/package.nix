@@ -36,7 +36,7 @@ stdenv.mkDerivation (finalAttrs: {
     nodejs
   ];
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "Generate docs for GitHub actions";

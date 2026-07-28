@@ -2,6 +2,7 @@
   lib,
   buildGoModule,
   fetchFromGitLab,
+  nix-update-script,
 }:
 
 buildGoModule (finalAttrs: {
@@ -22,6 +23,8 @@ buildGoModule (finalAttrs: {
   vendorHash = "sha256-10CKNQ0mCa+k3aFQH/5XvG5LYGyU/gm+kr2eYmqU6AU=";
 
   ldflags = [ "-s" ];
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "Service for managing and receiving Alertmanager alerts on Matrix";

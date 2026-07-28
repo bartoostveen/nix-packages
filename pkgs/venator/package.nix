@@ -2,6 +2,7 @@
   lib,
   buildGoModule,
   fetchFromGitea,
+  nix-update-script,
   go,
   mdbook,
   versionCheckHook,
@@ -60,6 +61,8 @@ buildGoModule (finalAttrs: {
     "-X"
     "codeberg.org/timedout/venator/version.OSArch=${finalAttrs.goModules.GOARCH}"
   ];
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "Matrix Venator - versatile capital Matrix homeserver written from scratch in mautrix-go";

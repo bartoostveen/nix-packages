@@ -1,6 +1,7 @@
 {
   lib,
   stdenv,
+  nix-update-script,
   fetchFromGitHub,
   fetchPnpmDeps,
   pnpm_10,
@@ -51,6 +52,8 @@ stdenv.mkDerivation (finalAttrs: {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "An almost stable Matrix client";

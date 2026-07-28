@@ -2,6 +2,7 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
+  nix-update-script,
   nodejs_26,
 }:
 
@@ -26,6 +27,8 @@ buildNpmPackage (finalAttrs: {
     makeWrapper ${lib.getExe nodejs_26} $out/bin/${finalAttrs.pname} --append-flag "$out/express.js"
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "Zap: Dynamically generated stats for your github readmes";

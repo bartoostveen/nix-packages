@@ -2,6 +2,7 @@
   lib,
   php,
   fetchFromGitHub,
+  nix-update-script,
 }:
 
 php.buildComposerProject2 (finalAttrs: {
@@ -23,6 +24,8 @@ php.buildComposerProject2 (finalAttrs: {
     cp -R ./. $out
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "Open ID Connect - WordPress Roles";

@@ -3,6 +3,7 @@
   stdenv,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
   olm,
   withGoOlm ? false,
 }:
@@ -31,6 +32,8 @@ buildGoModule (finalAttrs: {
   doInstallCheck = false;
 
   tags = lib.optional withGoOlm "goolm";
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "A Matrix-Telegram puppeting bridge";

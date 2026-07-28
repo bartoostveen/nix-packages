@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
   cmake,
   pkg-config,
   kdePackages,
@@ -62,6 +63,8 @@ stdenv.mkDerivation (finalAttrs: {
       terminal = false;
     })
   ];
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "AirPods liberated from Apple's ecosystem";
