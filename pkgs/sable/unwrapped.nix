@@ -57,6 +57,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/SableClient/Sable";
     changelog = "https://github.com/SableClient/Sable/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.agpl3Only;
+    maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "sable";
     platforms = lib.platforms.all;
   };

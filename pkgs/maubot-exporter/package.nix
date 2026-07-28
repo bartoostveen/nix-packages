@@ -49,7 +49,7 @@ stdenv.mkDerivation (_finalAttrs: {
   meta = {
     description = "Simple metrics exporter for maubot";
     homepage = "https://git.kurocon.nl/kuronet/maubot-exporter";
-    license = lib.licenses.unfree; # FIXME: no license exists
+    license = [ ];
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "maubot-exporter";
     platforms = lib.platforms.all;

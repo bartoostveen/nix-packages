@@ -31,6 +31,7 @@ buildNpmPackage (finalAttrs: {
     description = "Zap: Dynamically generated stats for your github readmes";
     homepage = "https://github.com/anuraghazra/github-readme-stats";
     license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = finalAttrs.pname;
     platforms = lib.platforms.all;
   };

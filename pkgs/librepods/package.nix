@@ -68,6 +68,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/kavishdevar/librepods";
     changelog = "https://github.com/kavishdevar/librepods/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.agpl3Only;
+    maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "librepods";
     platforms = lib.platforms.all;
   };

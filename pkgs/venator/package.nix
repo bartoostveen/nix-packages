@@ -67,5 +67,6 @@ buildGoModule (finalAttrs: {
     license = lib.licenses.mpl20;
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "venatorctl";
+    platforms = lib.platforms.all;
   };
 })

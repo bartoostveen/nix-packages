@@ -27,5 +27,6 @@ buildGoModule (_finalAttrs: {
     license = [ ];
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "uptimekuma-matrix";
+    platforms = lib.platforms.all;
   };
 })

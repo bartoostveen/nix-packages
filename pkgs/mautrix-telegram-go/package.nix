@@ -39,5 +39,6 @@ buildGoModule (finalAttrs: {
     license = lib.licenses.agpl3Only;
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "mautrix-telegram";
+    platforms = lib.platforms.all;
   };
 })

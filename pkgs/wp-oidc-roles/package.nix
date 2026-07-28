@@ -27,6 +27,7 @@ php.buildComposerProject2 (finalAttrs: {
   meta = {
     description = "Open ID Connect - WordPress Roles";
     homepage = "https://github.com/oidc-wp/oidc-wp-roles";
+    maintainers = with lib.maintainers; [ bartoostveen ];
     platforms = lib.platforms.all;
   };
 })

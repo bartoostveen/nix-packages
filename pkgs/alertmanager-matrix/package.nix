@@ -27,6 +27,8 @@ buildGoModule (finalAttrs: {
     description = "Service for managing and receiving Alertmanager alerts on Matrix";
     homepage = "https://github.com/silkeh/alertmanager_matrix";
     license = lib.licenses.eupl12;
+    maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "alertmanager_matrix";
+    platforms = lib.platforms.linux;
   };
 })

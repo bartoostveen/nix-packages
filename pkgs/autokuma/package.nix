@@ -33,9 +33,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
   meta = {
     description = "Utility that automates the creation of Uptime Kuma monitors";
     homepage = "https://github.com/BigBoot/AutoKuma";
-    mainProgram = "autokuma";
     license = lib.licenses.mit;
-    platforms = lib.platforms.linux;
     maintainers = with lib.maintainers; [ bartoostveen ];
+    mainProgram = "autokuma";
+    platforms = lib.platforms.linux;
   };
 })
