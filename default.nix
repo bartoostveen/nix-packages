@@ -32,7 +32,12 @@ let
     in
     packages
     // {
-      _bartPackages = _bartPackages // packages;
+      _bartPackages =
+        _bartPackages
+        // packages
+        // {
+          updatablesJson = builtins.toJSON (import ./ci/updatables.nix { inherit pkgs packages; });
+        };
       nixosModules = import ./modules;
     };
 

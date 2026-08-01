@@ -1,0 +1,88 @@
+name: "Package Updates"
+"on":
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch: {}
+jobs:
+  eval:
+    runs-on: [bigger-parallel, native-x86_64-linux]
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Evaluate Updatable Packages
+        id: set-matrix
+        run: |
+          updatables=$(nix eval --raw .#_bartPackages.updatablesJson)
+          echo "matrix={\"include\": $updatables}" >> $GITHUB_OUTPUT
+  update-package:
+    needs: eval
+    runs-on: [bigger-parallel, native-x86_64-linux]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.eval.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-home@972508aa672ab101fd85eaffab9671c0a641bc7a # v1
+        with:
+          gpg-privkey: ${{ secrets.GPG_PRIVKEY }}
+          gpg-key-id: ${{ vars.GPG_KEY_ID }}
+      - name: update package
+        run: |
+          base="master"
+          head="ci-update/${{ matrix.attrPath }}"
+
+          echo "Processing package: ${{ matrix.attrPath }} (${{ matrix.version }})"
+          git checkout -B "$head" "origin/$base" || git checkout -b "$head"
+          read -r -a update_script_cmd <<< "$(echo '${{ toJson(matrix.updateScript) }}' | jq -r 'join(" ")')"
+
+          echo "Realising ${update_script_cmd[0]}"
+          nix-store --realise "${update_script_cmd[0]}"
+          "${update_script_cmd[@]}" --flake
+
+          if git diff --quiet; then
+            echo "No changes for ${{ matrix.attrPath }}"
+            exit 0
+          fi
+
+          new_version=$(nix eval --raw ".#${{ matrix.attrPath }}.version")
+
+          git add .
+          commit_msg="${{ matrix.attrPath }}: ${{ matrix.version }} -> $new_version"
+          echo "Committing: \"$commit_msg\""
+          git commit -m "$commit_msg"
+          git push origin "$head" --force-with-lease
+
+          existing_prs="$(
+            curl --silent --fail-with-body \
+              -H "Authorization: token $FORGEJO_TOKEN" \
+              "$FORGEJO_SERVER_URL/api/v1/repos/$FORGEJO_REPOSITORY/pulls?state=open&head=$FORGEJO_REPOSITORY_OWNER:$head"
+          )"
+
+          if jq -e --arg head "$head" 'any(.[]; .head.ref == $head)' <<< "$existing_prs" > /dev/null; then
+            echo "PR for branch '$head' already exists"
+            exit 0
+          fi
+
+          body="Automated version bump for **${{ matrix.attrPath }}** from \`${{ matrix.version }}\` to \`$new_version\` using \`passthru.updateScript\`."
+
+          jq -n \
+            --arg base "$base" \
+            --arg head "$head" \
+            --arg title "$commit_msg" \
+            --arg body "$body" \
+            '{
+              base: $base,
+              head: $head,
+              title: $title,
+              body: $body
+            }' |
+          curl --fail-with-body "$FORGEJO_SERVER_URL/api/v1/repos/$FORGEJO_REPOSITORY/pulls" \
+            -H "Authorization: token $FORGEJO_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @-
+        env:
+          UPDATE_NIX_NAME: ${{ matrix.name }}
+          UPDATE_NIX_PNAME: ${{ matrix.pname }}
+          UPDATE_NIX_OLD_VERSION: ${{ matrix.version }}
+          UPDATE_NIX_ATTR_PATH: ${{ matrix.attrPath }}

@@ -42,7 +42,7 @@
         flake.overlays = {
           default =
             _: prev:
-            import ./default.nix {
+            import ./. {
               inherit (prev.stdenv.hostPlatform) system;
               pkgs = prev;
             };
@@ -82,7 +82,7 @@
           let
             inherit (lib) filterAttrs isDerivation;
 
-            packages = pkgs.callPackage ./default.nix { };
+            packages = pkgs.callPackage ./. { inherit system; };
           in
           {
             _module.args.pkgs = import inputs.nixpkgs {
