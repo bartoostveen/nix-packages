@@ -17,11 +17,10 @@ let
     warn
     ;
 
-  _bartPackages = if pkgs ? _bartPackages then pkgs._bartPackages else { };
+  _bartPackages = pkgs._bartPackages or { };
 
-  suppressSystemWarning =
-    if _bartPackages ? suppressSystemWarning then _bartPackages.suppressSystemWarning else false;
-  prefix = if _bartPackages ? prefix then _bartPackages.prefix else null;
+  suppressSystemWarning = _bartPackages.suppressSystemWarning or false;
+  prefix = _bartPackages.prefix or null;
 
   packages =
     let
@@ -68,4 +67,4 @@ let
     )
       packages;
 in
-(if prefix == null then packagesWithWarning else { ${prefix} = packagesWithWarning; })
+if prefix == null then packagesWithWarning else { ${prefix} = packagesWithWarning; }

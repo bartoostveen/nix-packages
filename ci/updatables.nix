@@ -32,7 +32,7 @@ let
             attrPath = path;
             name = value.name or path;
             pname = value.pname or key;
-            version = value.version;
+            inherit (value) version;
             updateScript = map toString (toList (value.updateScript.command or value.updateScript));
           }
         ]
