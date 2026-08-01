@@ -12,7 +12,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "action-docs";
-  version = "0-unstable-2025-06-13";
+  version = "2.5.1-unstable-2025-06-13";
 
   __structuredAttrs = true;
   strictDeps = true;
