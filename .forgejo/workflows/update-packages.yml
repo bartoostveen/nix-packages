@@ -38,19 +38,13 @@ jobs:
 
           echo "Realising ${update_script_cmd[0]}"
           nix-store --realise "${update_script_cmd[0]}"
-          "${update_script_cmd[@]}" --flake
+          "${update_script_cmd[@]}" --flake --commit
 
-          if git diff --quiet; then
+          if [[ "$(git rev-list origin/"$base"..HEAD --count)" -ne 1 ]]; then
             echo "No changes for ${{ matrix.attrPath }}"
             exit 0
           fi
 
-          new_version=$(nix eval --raw ".#${{ matrix.attrPath }}.version")
-
-          git add .
-          commit_msg="${{ matrix.attrPath }}: ${{ matrix.version }} -> $new_version"
-          echo "Committing: \"$commit_msg\""
-          git commit -m "$commit_msg"
           git push origin "$head" --force-with-lease
 
           existing_prs="$(
@@ -64,12 +58,20 @@ jobs:
             exit 0
           fi
 
+          title="$(git log -1 --pretty=%s)"
+          commit_body="$(git log -1 --pretty=%b)"
+
+          new_version=$(nix eval --raw ".#${{ matrix.attrPath }}.version")
           body="Automated version bump for **${{ matrix.attrPath }}** from \`${{ matrix.version }}\` to \`$new_version\` using \`passthru.updateScript\`."
+
+          if [[ -n "$commit_body" ]]; then
+            body="$(printf '%s\n\n```\n%s\n```' "$body" "$commit_body")"
+          fi
 
           jq -n \
             --arg base "$base" \
             --arg head "$head" \
-            --arg title "$commit_msg" \
+            --arg title "$title" \
             --arg body "$body" \
             '{
               base: $base,
