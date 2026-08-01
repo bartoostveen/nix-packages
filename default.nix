@@ -33,6 +33,7 @@ let
     packages
     // {
       _bartPackages = _bartPackages // packages;
+      nixosModules = import ./modules;
     };
 
   packagesWithWarning =
