@@ -9,7 +9,7 @@
 
 stdenv.mkDerivation (_finalAttrs: {
   pname = "maubot-exporter";
-  version = "0-unstable-2026-06-03";
+  version = "0-unstable-2026-06-02";
 
   pyproject = false;
 
