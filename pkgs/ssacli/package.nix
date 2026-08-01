@@ -82,5 +82,6 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "ssacli";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 })
