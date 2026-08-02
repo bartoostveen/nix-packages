@@ -40,6 +40,11 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-3jfiIjSoXFN4vtp84FZ3ZhvIoI7YVw31Larmsa96Tzc=";
   };
 
+  env = {
+    VITE_BUILD_HASH = finalAttrs.src.rev;
+    SABLE_BUILD_FLAVOR = "stable";
+  };
+
   buildPhase = ''
     runHook preBuild
 
@@ -64,7 +69,6 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://github.com/SableClient/Sable/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.agpl3Only;
     maintainers = with lib.maintainers; [ bartoostveen ];
-    mainProgram = "sable";
     platforms = lib.platforms.all;
   };
 })
