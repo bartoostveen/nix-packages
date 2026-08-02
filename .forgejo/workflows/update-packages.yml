@@ -45,7 +45,7 @@ jobs:
             exit 0
           fi
 
-          git push origin "$head" --force-with-lease
+          git push origin "$head" --force
 
           existing_prs="$(
             curl --silent --fail-with-body \
