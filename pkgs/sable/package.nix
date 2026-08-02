@@ -1,6 +1,5 @@
 {
   stdenv,
-  sable,
   sable-unwrapped,
   conf ? { },
 }:
@@ -10,13 +9,8 @@ stdenv.mkDerivation {
   inherit (sable-unwrapped) version meta;
 
   passthru = {
+    unwrapped = sable-unwrapped;
     inherit conf;
-    withGifSupport = sable.override {
-      conf.gifs = {
-        proxyUrl = "gifs.sable.moe";
-        klipyApiKey = "IfeIBlDMvq0av2BcKPDuxwRqbnYRbS90yNqFHEkK2Ja207tkR5nssh3NIlJRCr76";
-      };
-    };
   };
 
   dontUnpack = true;
