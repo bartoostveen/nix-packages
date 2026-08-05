@@ -7,15 +7,15 @@
 
 buildGoModule (_finalAttrs: {
   pname = "uptime-kuma-matrix";
-  version = "0-unstable-2026-07-27";
+  version = "0-unstable-2026-08-05";
 
   __structuredAttrs = true;
   strictDeps = true;
 
   src = fetchgit {
     url = "https://forge.koenoostveen.nl/koen/uptimekuma-matrix.git";
-    rev = "80591c0d9e3d765a38d48b31ddc463907ef7b08f";
-    hash = "sha256-jaErUdHuJbykbU+/415iud5vYoEdX9oFTBqYDNbIMDw=";
+    rev = "5cc7cd54e113d4bc05b75e26e2045b94a33f494a";
+    hash = "sha256-Kc6qVpVbc4z9aXzpj7jKppENRXfIuRiwIaOubt0y20w=";
   };
 
   vendorHash = "sha256-w/ZmNmM9MKnn9UN++ZvVfroRW8KMJHiZddJU0R8gcBE=";
