@@ -26,6 +26,7 @@ buildNpmPackage (finalAttrs: {
     ./0002-fix-build-do-not-run-git-clean.patch
     ./0003-fix-build-do-not-run-commands-silently.patch
     ./0004-fix-build-do-not-run-npm-ci.patch
+    ./0005-fix-build-reverse-useless-changes.patch
   ];
 
   nativeBuildInputs = [

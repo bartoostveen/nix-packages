@@ -1,7 +1,7 @@
-From 024c455af02de02538fb5123d396dda08805cd4e Mon Sep 17 00:00:00 2001
+From 09d973fd135e91102e53086a07d527b45c882346 Mon Sep 17 00:00:00 2001
 From: Bart Oostveen <bart@bartoostveen.nl>
 Date: Fri, 26 Jun 2026 20:37:05 +0200
-Subject: [PATCH 2/4] fix(build): do not run git clean
+Subject: [PATCH 2/5] fix(build): do not run git clean
 
 ---
  packages/icons/lib/generate-library.cjs | 10 ----------
@@ -36,5 +36,5 @@ index 2c7568dd08f..b96e498c0bf 100644
  async function generateTsxFiles( svgFiles ) {
  	if ( svgFiles ) {
 -- 
-2.54.0
+2.55.0
 

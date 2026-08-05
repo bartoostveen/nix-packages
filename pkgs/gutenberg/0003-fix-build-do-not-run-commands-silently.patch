@@ -1,7 +1,7 @@
-From 8bc249741b8fb4fbb8257c8efba23b6a600e8097 Mon Sep 17 00:00:00 2001
+From e5565e2f4612b7e15e7f992c38741640e31e45d9 Mon Sep 17 00:00:00 2001
 From: Bart Oostveen <bart@bartoostveen.nl>
 Date: Mon, 6 Jul 2026 23:25:15 +0200
-Subject: [PATCH 3/4] fix(build): do not run commands silently
+Subject: [PATCH 3/5] fix(build): do not run commands silently
 
 ---
  tools/build-scripts/build.mjs | 145 ++++++++++------------------------
@@ -210,5 +210,5 @@ index 7c5346e4fd4..159b2d673d6 100644
  		const totalTime = Date.now() - startTime;
  		console.log(
 -- 
-2.54.0
+2.55.0
 
