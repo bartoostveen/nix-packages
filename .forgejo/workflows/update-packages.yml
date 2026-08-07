@@ -51,7 +51,7 @@ jobs:
           read -r -a update_script_cmd <<< "$(echo '${{ toJson(matrix.updateScript) }}' | jq -r 'join(" ")')"
 
           echo "Realising ${update_script_cmd[0]}"
-          nix-store --realise "${update_script_cmd[0]}"
+          nix-store --realise "${update_script_cmd[0]}" || true
           "${update_script_cmd[@]}" --flake --commit
 
           if [[ "$(git rev-list origin/"$base"..HEAD --count)" -ne 1 ]]; then
