@@ -72,7 +72,6 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "AirPods liberated from Apple's ecosystem";
     homepage = "https://github.com/librepods-org/librepods";
-    changelog = "https://github.com/librepods-org/librepods/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.agpl3Only;
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "librepods";
