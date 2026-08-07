@@ -40,5 +40,17 @@ buildNpmPackage (finalAttrs: {
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = finalAttrs.pname;
     platforms = lib.platforms.all;
+    knownVulnerabilities = [
+      ''
+        github-readme-stats is not maintained anymore/deprecated. See:
+        <https://github.com/anuraghazra/github-readme-stats/blob/54a7985aeefda00d5eadb55b80c17c7f976c37d2/readme.md#github-readme-stats>
+
+        Given the state of the NodeJS ecosystem as of writing, packages can become vulnerable pretty quickly.
+        Consider installing GitHub Stats Extended, the successor and/or drop-in replacement for this package.
+
+        At the time of writing, this is not packaged yet inside this repository, but it has reasonable priority
+        given the security nightmare that is about to happen.
+      ''
+    ];
   };
 })
