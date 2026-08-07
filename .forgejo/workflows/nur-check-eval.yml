@@ -14,6 +14,6 @@ jobs:
             --option restrict-eval true \
             --option allow-import-from-derivation true \
             --drv-path --show-trace \
-            -I nixpkgs=$(nix-instantiate --find-file nixpkgs) \
+            -I nixpkgs=$(nix eval --raw .#inputs.nixpkgs.outPath) \
             -I ./ \
             --json | jq -r 'values | .[].name'
