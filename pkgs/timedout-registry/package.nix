@@ -23,7 +23,7 @@ buildGoModule (_finalAttrs: {
 
   ldflags = [ "-s" ];
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=dev" ]; };
 
   meta = {
     description = "A tiny (0 dependency) Go server that acts as a registry for Golang packages";
