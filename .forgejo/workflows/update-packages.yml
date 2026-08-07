@@ -47,6 +47,8 @@ jobs:
           head="ci-update/${{ matrix.attrPath }}"
 
           echo "Processing package: ${{ matrix.attrPath }} (${{ matrix.version }})"
+          export NIX_PATH="nixpkgs=$(nix eval --raw .#inputs.nixpkgs.outPath):$NIX_PATH"
+
           git checkout -B "$head" "origin/$base" || git checkout -b "$head"
           read -r -a update_script_cmd <<< "$(echo '${{ toJson(matrix.updateScript) }}' | jq -r 'join(" ")')"
 

@@ -50,6 +50,8 @@
         };
 
         flake = {
+          inherit inputs;
+
           hydraJobs =
             let
               filter =
