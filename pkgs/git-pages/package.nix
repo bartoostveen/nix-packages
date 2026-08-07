@@ -3,7 +3,8 @@
   buildGoModule,
   fetchFromGitea,
   nix-update-script,
-  versionCheckHook,
+  testers,
+  git-pages,
 }:
 
 # unstable version of what is already in nixpkgs, will remove once git-pages starts picking up proper releases again
@@ -32,11 +33,16 @@ buildGoModule (finalAttrs: {
     }"
   ];
 
-  doInstallCheck = true;
-  nativeInstallCheckInputs = [ versionCheckHook ];
-  versionCheckProgramArg = "-version";
-
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
+  passthru = {
+    updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
+    tests.version = testers.testVersion {
+      package = git-pages;
+      command = "git-pages -version";
+      version = "git-pages ${
+        if finalAttrs.src.tag == null then finalAttrs.src.rev else finalAttrs.src.tag
+      }";
+    };
+  };
 
   meta = {
     description = "Scalable static site server for Git forges";
