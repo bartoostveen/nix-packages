@@ -11,7 +11,7 @@
 
 buildGoModule (finalAttrs: {
   pname = "venator";
-  version = "0-unstable-2026-07-21";
+  version = "0.1.0a2-unstable-2026-08-04";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -20,11 +20,11 @@ buildGoModule (finalAttrs: {
     domain = "codeberg.org";
     owner = "matrix-venator";
     repo = "venator";
-    rev = "36446c80b7573873cc8ddce75d476ce724fe505a";
-    hash = "sha256-+lpOE8wYTprvBQX6Hz5UP1veDZ8/P+bitJrXMzcKcFU=";
+    rev = "13676b97cff2c2f591cc190a1aaaa34fc5404a8a";
+    hash = "sha256-Dx9UJoMFB/2TJj78kx0BnSDiG1m2P6BBTZELRJfgqFA=";
   };
 
-  vendorHash = "sha256-1k27rRrE5dohKLi+72VoglbvDN2KJkOOFMknUBqAMhY=";
+  vendorHash = "sha256-SMHhDTNkknJ6OawlyZ53uZhjYIDtL9LjbTg/dZ4VJkI=";
 
   preBuild = lib.optionalString withDocs ''
     if [ -d vendor ]; then
@@ -47,26 +47,26 @@ buildGoModule (finalAttrs: {
     "-s"
     "-w"
     "-X"
-    "codeberg.org/timedout/venator/version.LatestTag=${finalAttrs.version}"
+    "codeberg.org/matrix-venator/venator/version.LatestTag=${finalAttrs.version}"
     "-X"
-    "codeberg.org/timedout/venator/version.CurrentTag=${finalAttrs.version}"
+    "codeberg.org/matrix-venator/venator/version.CurrentTag=${finalAttrs.version}"
     "-X"
-    "codeberg.org/timedout/venator/version.CommitHash=${finalAttrs.src.rev}"
+    "codeberg.org/matrix-venator/venator/version.CommitHash=${finalAttrs.src.rev}"
     "-X"
-    "codeberg.org/timedout/venator/version.Dirty=false"
+    "codeberg.org/matrix-venator/venator/version.Dirty=false"
     "-X"
-    "codeberg.org/timedout/venator/version.BuildDate=\"1970.01.01T00.00.00Z\""
+    "codeberg.org/matrix-venator/venator/version.BuildDate=\"1970.01.01T00.00.00Z\""
     "-X"
-    "codeberg.org/timedout/venator/version.GoVersion=${go.version}"
+    "codeberg.org/matrix-venator/venator/version.GoVersion=${go.version}"
     "-X"
-    "codeberg.org/timedout/venator/version.OSArch=${finalAttrs.goModules.GOARCH}"
+    "codeberg.org/matrix-venator/venator/version.OSArch=${finalAttrs.goModules.GOARCH}"
   ];
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=dev" ]; };
 
   meta = {
     description = "Matrix Venator - versatile capital Matrix homeserver written from scratch in mautrix-go";
-    homepage = "https://codeberg.org/timedout/venator";
+    homepage = "https://codeberg.org/matrix-venator/venator";
     license = lib.licenses.mpl20;
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "venatorctl";
