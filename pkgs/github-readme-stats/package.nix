@@ -47,9 +47,6 @@ buildNpmPackage (finalAttrs: {
 
         Given the state of the NodeJS ecosystem as of writing, packages can become vulnerable pretty quickly.
         Consider installing GitHub Stats Extended, the successor and/or drop-in replacement for this package.
-
-        At the time of writing, this is not packaged yet inside this repository, but it has reasonable priority
-        given the security nightmare that is about to happen.
       ''
     ];
   };
