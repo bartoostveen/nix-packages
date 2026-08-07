@@ -26,7 +26,9 @@ jobs:
             echo "Applying package filter regex: $INPUT_FILTER"
             updatables=$(echo "$updatables" | jq --arg pattern "$INPUT_FILTER" 'map(select(.attrPath | test($pattern)))')
           fi
-          echo "matrix={\"include\": $updatables}" >> $GITHUB_OUTPUT
+          updatables=$(echo "$updatables" | jq -c '{ include: . }')
+          echo "Final matrix: $updatables"
+          echo "matrix=$updatables" >> $GITHUB_OUTPUT
   update-package:
     needs: eval
     runs-on: [bigger-parallel, native-x86_64-linux]
