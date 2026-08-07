@@ -1,5 +1,6 @@
 {
   lib,
+  callPackage,
   buildGoModule,
   fetchFromGitea,
   nix-update-script,
@@ -62,7 +63,40 @@ buildGoModule (finalAttrs: {
     "codeberg.org/matrix-venator/venator/version.OSArch=${finalAttrs.goModules.GOARCH}"
   ];
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=dev" ]; };
+  passthru = {
+    updateScript = nix-update-script { extraArgs = [ "--version=branch=dev" ]; };
+    docs = callPackage (
+      {
+        stdenv,
+        mdbook,
+      }:
+
+      stdenv.mkDerivation {
+        pname = "venator-docs";
+        inherit (finalAttrs) version src meta;
+
+        nativeBuildInputs = [ mdbook ];
+
+        dontConfigure = true;
+
+        buildPhase = ''
+          runHook preBuild
+
+          mdbook build
+
+          runHook postBuild
+        '';
+
+        installPhase = ''
+          runHook preInstall
+
+          cp -r site $out
+
+          runHook postInstall
+        '';
+      }
+    ) { };
+  };
 
   meta = {
     description = "Matrix Venator - versatile capital Matrix homeserver written from scratch in mautrix-go";
