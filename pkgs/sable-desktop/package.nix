@@ -19,6 +19,7 @@
   jq,
   moreutils,
   nix-update-script,
+  _experimental-update-script-combinators,
   conf ? { },
 }:
 
@@ -120,7 +121,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     )
   '';
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = _experimental-update-script-combinators.sequence [
+    (nix-update-script { attrPath = "sable-unwrapped"; })
+    (nix-update-script { })
+  ];
 
   meta = {
     inherit (sable.meta)
