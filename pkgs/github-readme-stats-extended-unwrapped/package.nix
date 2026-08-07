@@ -74,7 +74,7 @@ stdenv.mkDerivation (finalAttrs: {
     cp -r packages/core $out/backend/node_modules/@stats-organization/github-readme-stats-core
 
     makeWrapper ${lib.getExe nodejs} \
-      $out/bin/${finalAttrs.pname} \
+      $out/bin/github-stats-extended \
       --chdir "$out/backend" \
       --append-flag "express.js"
 
