@@ -2,7 +2,13 @@ name: "Package Updates"
 "on":
   schedule:
     - cron: "0 0 * * 0"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      package_filter:
+        description: "Regex pattern to filter packages (e.g., ^autokuma or wordpressPackages\\..*)"
+        required: false
+        default: ""
+        type: string
 jobs:
   eval:
     runs-on: [bigger-parallel, native-x86_64-linux]
@@ -12,8 +18,14 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Evaluate Updatable Packages
         id: set-matrix
+        env:
+          INPUT_FILTER: ${{ inputs.package_filter }}
         run: |
           updatables=$(nix eval --raw .#_bartPackages.updatablesJson)
+          if [[ -n "$INPUT_FILTER" ]]; then
+            echo "Applying package filter regex: $INPUT_FILTER"
+            updatables=$(echo "$updatables" | jq --arg pattern "$INPUT_FILTER" 'map(select(.attrPath | test($pattern)))')
+          fi
           echo "matrix={\"include\": $updatables}" >> $GITHUB_OUTPUT
   update-package:
     needs: eval
