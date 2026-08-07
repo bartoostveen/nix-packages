@@ -3,6 +3,7 @@
   buildGoModule,
   fetchFromGitea,
   nix-update-script,
+  versionCheckHook,
 }:
 
 # unstable version of what is already in nixpkgs, will remove once git-pages starts picking up proper releases again
@@ -24,7 +25,16 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-CmWI0cR31N8zPXyU95XDs/43ayFa6G5KCHf/+iC0oxc=";
 
-  ldflags = [ "-s" ];
+  ldflags = [
+    "-s"
+    "-X main.versionOverride=${
+      if finalAttrs.src.tag == null then finalAttrs.src.rev else finalAttrs.src.tag
+    }"
+  ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
+  versionCheckProgramArg = "-version";
 
   passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
