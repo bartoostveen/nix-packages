@@ -53,7 +53,7 @@ buildNpmPackage (finalAttrs: {
   passthru.updateScript = nix-update-script { };
 
   meta = {
-    description = "The Block Editor project for WordPress and beyond. Plugin is available from the official repository";
+    description = "The Block Editor project for WordPress and beyond.";
     homepage = "https://github.com/WordPress/gutenberg";
     changelog = "https://github.com/WordPress/gutenberg/blob/${finalAttrs.src.rev}/changelog.txt";
     license = lib.licenses.gpl2Plus;
