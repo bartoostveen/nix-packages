@@ -26,7 +26,5 @@ tmuxPlugins.mkTmuxPlugin {
     homepage = "https://github.com/dmitry-kabanov/tmux-statusline-themes";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ bartoostveen ];
-    mainProgram = "tmux-statusline-themes";
-    platforms = lib.platforms.all;
   };
 }
