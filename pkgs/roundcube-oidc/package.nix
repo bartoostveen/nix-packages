@@ -1,45 +1,38 @@
 {
+  stdenv,
+  roundcube-oidc-unwrapped,
+  writeText,
+  runCommand,
   lib,
   php,
-  fetchFromForgejo,
-  nix-update-script,
+  configText ? "",
 }:
 
-php.buildComposerProject2 (finalAttrs: {
+let
+  inherit (lib) getExe optionalString;
+
+  config = writeText "roundcube-oidc-config.php" configText;
+  configChecked = runCommand "roundcube-oidc-config-checked" { } ''
+    ${getExe php} -l ${config}
+    cp ${config} $out
+  '';
+in
+stdenv.mkDerivation {
   pname = "roundcube-oidc";
-  version = "1.2.17";
+  inherit (roundcube-oidc-unwrapped) version meta;
 
-  __structuredAttrs = true;
-  strictDeps = true;
-
-  src = fetchFromForgejo {
-    domain = "git.bartoostveen.nl";
-    owner = "bart";
-    repo = "roundcube-oidc";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-lk4JqbsLvwnTcGydXjLaiknoYw97bQlUZExHLlGyTjM=";
-  };
-
-  vendorHash = "sha256-26eTi+ul3cO6V640Z+W3K03bwIdGtugnEgP7gk9E6CA=";
-  composerStrictValidation = false;
-
+  dontUnpack = true;
   installPhase = ''
     runHook preInstall
-
     mkdir -p $out/plugins/roundcube_oidc
-    cp -R * $out/plugins/roundcube_oidc/
+    ln -s ${roundcube-oidc-unwrapped}/plugins/roundcube_oidc/* $out/plugins/roundcube_oidc
 
-    runHook postInstall
+    ${optionalString (configText == "") ''
+      cp $out/plugins/roundcube_oidc/config.inc.php.dist $out/plugins/roundcube_oidc/config.inc.php
+    ''}
+
+    ${optionalString (configText != "") ''
+      cp ${configChecked} $out/plugins/roundcube_oidc/config.inc.php
+    ''}
   '';
-
-  passthru.updateScript = nix-update-script { };
-
-  meta = {
-    description = "OpenID Connect authentication plugin for Roundcube";
-    homepage = "https://git.bartoostveen.nl/bart/roundcube-oidc";
-    license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ bartoostveen ];
-    mainProgram = "roundcube-oidc";
-    platforms = lib.platforms.all;
-  };
-})
+}
