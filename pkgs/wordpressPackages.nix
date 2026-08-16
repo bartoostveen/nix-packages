@@ -7,9 +7,10 @@ let
   inherit (lib)
     makeScope
     substring
+    recurseIntoAttrs
     ;
 in
-makeScope newScope (self: {
+makeScope newScope (self: recurseIntoAttrs {
   mkWpPlugin =
     {
       stdenv,
