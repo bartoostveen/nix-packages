@@ -38,6 +38,7 @@ php.buildComposerProject2 (finalAttrs: {
     description = "OpenID Connect authentication plugin for Roundcube";
     homepage = "https://git.bartoostveen.nl/bart/roundcube-oidc";
     license = lib.licenses.mit;
+    changelog = "https://git.bartoostveen.nl/bart/roundcube-oidc/src/tag/${finalAttrs.src.tag}/CHANGELOG.md";
     maintainers = with lib.maintainers; [ bartoostveen ];
     platforms = lib.platforms.all;
   };
