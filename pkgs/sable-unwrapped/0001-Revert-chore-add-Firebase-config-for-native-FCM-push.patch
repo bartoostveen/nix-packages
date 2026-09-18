@@ -1,0 +1,78 @@
+From 728b99dccad0adc485673f16316ed358547b33b7 Mon Sep 17 00:00:00 2001
+From: Bart Oostveen <bart@bartoostveen.nl>
+Date: Fri, 18 Sep 2026 19:57:01 +0200
+Subject: [PATCH] Revert "chore: add Firebase config for native FCM push"
+
+This reverts commit 7c517e10dccb0a5801ec02b810ea69039d6f2a34.
+---
+ oxfmt.config.ts                               |  2 --
+ src-tauri/Cargo.lock                          |  2 +-
+ .../gen/android/app/google-services.json      | 29 -------------------
+ 3 files changed, 1 insertion(+), 32 deletions(-)
+ delete mode 100644 src-tauri/gen/android/app/google-services.json
+
+diff --git a/oxfmt.config.ts b/oxfmt.config.ts
+index 40e2525b3..a2bd4e77b 100644
+--- a/oxfmt.config.ts
++++ b/oxfmt.config.ts
+@@ -10,8 +10,6 @@ export default {
+     'node_modules',
+     'src/app/generated',
+     'src-tauri/ios-project.yml',
+-    // Copied verbatim from the Firebase console; formatting it would drift.
+-    'src-tauri/gen/android/app/google-services.json',
+     'package.json',
+     'pnpm-lock.yaml',
+     'LICENSE',
+diff --git a/src-tauri/Cargo.lock b/src-tauri/Cargo.lock
+index fc7b4eb64..05543d7ad 100644
+--- a/src-tauri/Cargo.lock
++++ b/src-tauri/Cargo.lock
+@@ -6834,7 +6834,7 @@ checksum = "9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f"
+ 
+ [[package]]
+ name = "sable"
+-version = "1.22.1"
++version = "1.21.0"
+ dependencies = [
+  "aes 0.9.2",
+  "async-stream",
+diff --git a/src-tauri/gen/android/app/google-services.json b/src-tauri/gen/android/app/google-services.json
+deleted file mode 100644
+index 969d363a1..000000000
+--- a/src-tauri/gen/android/app/google-services.json
++++ /dev/null
+@@ -1,29 +0,0 @@
+-{
+-  "project_info": {
+-    "project_number": "136631010081",
+-    "project_id": "sable-d1811",
+-    "storage_bucket": "sable-d1811.firebasestorage.app"
+-  },
+-  "client": [
+-    {
+-      "client_info": {
+-        "mobilesdk_app_id": "1:136631010081:android:fed0de8a33c934580b7460",
+-        "android_client_info": {
+-          "package_name": "moe.sable.client"
+-        }
+-      },
+-      "oauth_client": [],
+-      "api_key": [
+-        {
+-          "current_key": "AIzaSyC-0JTo2XFXGqKda6iaUyUGoCI-NIqhMFA"
+-        }
+-      ],
+-      "services": {
+-        "appinvite_service": {
+-          "other_platform_oauth_client": []
+-        }
+-      }
+-    }
+-  ],
+-  "configuration_version": "1"
+-}
+\ No newline at end of file
+-- 
+2.55.0
+

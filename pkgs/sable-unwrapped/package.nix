@@ -27,6 +27,11 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-bU20ULw8qNJggS3TFSFNOSkYSI12Q8BCHqMq2oQfu2Y=";
   };
 
+  patches = [
+    # Revert Firebase config
+    ./0001-Revert-chore-add-Firebase-config-for-native-FCM-push.patch
+  ];
+
   nativeBuildInputs = [
     pnpm
     pnpmConfigHook
