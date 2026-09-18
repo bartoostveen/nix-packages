@@ -21,6 +21,10 @@ buildNpmPackage (finalAttrs: {
     hash = "sha256-JMT5wPTYXeqXP832Lm9QTXj1ukaCXXJGtSsXNj6GnIs=";
   };
 
+  patches = [
+    ./0001-fix-setup-remove-connectivity-check.patch
+  ];
+
   npmDepsHash = "sha256-SYxAef1MJTGCLPMBM+RVKUEY1UNR6tSHMeU62CqF1OM=";
   dontNpmBuild = true;
 
