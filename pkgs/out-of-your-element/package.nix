@@ -43,7 +43,7 @@ buildNpmPackage (finalAttrs: {
       --add-flag "$out/lib/node_modules/out-of-your-element/start.js"
     makeWrapper ${lib.getExe nodejs} "$out/bin/addbot" \
       --add-flag "$out/lib/node_modules/out-of-your-element/addbot.js"
-    
+
     for script in "$out/lib/node_modules/out-of-your-element/scripts/"*.js; do
       [ -e "$script" ] || continue
       name="$(basename "$script" .js)"
