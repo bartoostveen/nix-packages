@@ -61,7 +61,7 @@ python3Packages.buildPythonApplication {
     "dotrun"
   ];
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     description = "A tool for developing Node.js and Python projects";
