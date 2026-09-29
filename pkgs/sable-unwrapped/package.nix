@@ -4,13 +4,13 @@
   nix-update-script,
   fetchFromGitHub,
   fetchPnpmDeps,
-  pnpm_10,
+  pnpm_11,
   pnpmConfigHook,
   nodejs_24,
 }:
 
 let
-  pnpm = pnpm_10;
+  pnpm = pnpm_11;
   nodejs = nodejs_24;
 in
 stdenv.mkDerivation (finalAttrs: {
@@ -42,7 +42,7 @@ stdenv.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     inherit pnpm;
     fetcherVersion = 4;
-    hash = "sha256-paJKHLFT78b/OKg/xWYUquET5JjF3P1kNZXRTP0IIsY=";
+    hash = "sha256-kEceCe0auMjcLSXYGOGLmm0PZpoRiz+FSl/Pa+pf/3g=";
   };
 
   env = {
