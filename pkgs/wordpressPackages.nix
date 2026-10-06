@@ -77,6 +77,12 @@ makeScope newScope (
         id = "opengraph";
         hash = "sha256-wZh8uwARbcsazpWwz5h9pbhzY5N97VM1mvp/2tI30pY=";
       };
+      user-avatars = self.callPackage self.mkWpPlugin {
+        pname = "wp-user-avatars";
+        version = "2.1.0";
+        id = "wp-user-avatars";
+        hash = "sha256-JmMOLm7EhMKlsfgx875ocgst3Zsp74Ztfv11rBPrbh0=";
+      };
       view-transitions = self.callPackage self.mkWpPlugin {
         pname = "wp-view-transitions";
         version = "1.2.1";
