@@ -65,7 +65,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     ''
       mv $out/bin/app $out/bin/sable
     ''
-    ++ lib.optionalString stdenv.hostPlatform.isDarwin ''
+    + lib.optionalString stdenv.hostPlatform.isDarwin ''
       mkdir -p "$out/bin"
       makeWrapper "$out/Applications/SableNext.app/Contents/MacOS/SableNext" "$out/bin/sable"
     ''
