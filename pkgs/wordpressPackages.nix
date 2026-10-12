@@ -41,9 +41,9 @@ makeScope newScope (
       };
       contact-form-7 = self.callPackage self.mkWpPlugin {
         pname = "wp-contact-form-7";
-        version = "6.2.1";
+        version = "6.2.2";
         id = "contact-form-7";
-        hash = "sha256-3LNHR5Afn32PmPRMBHMR8m9xEUvMj0GsafLR5BezOFI=";
+        hash = "sha256-Ov2q/hkoS4oWVradMXU4GP0UPmZ0mighmfUo+9yWtRI=";
       };
       indexnow = self.callPackage self.mkWpPlugin {
         pname = "indexnow";
