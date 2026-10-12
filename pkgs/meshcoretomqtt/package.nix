@@ -7,7 +7,7 @@
   makeWrapper,
 }:
 
-python3Packages.buildPythonApplication (finalAttrs: {
+python3Packages.buildPythonApplication {
   pname = "meshcoretomqtt";
   version = "0-unstable-2026-07-16";
 
@@ -96,4 +96,4 @@ python3Packages.buildPythonApplication (finalAttrs: {
     maintainers = with lib.maintainers; [ bartoostveen ];
     mainProgram = "mctomqtt";
   };
-})
+}
