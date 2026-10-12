@@ -61,9 +61,9 @@ makeScope newScope (
       gutenberg = self.callPackage ../pkgs/gutenberg/package.nix { };
       gutenberg-carousel = self.callPackage self.mkWpPlugin {
         pname = "wp-gutenberg-carousel";
-        version = "2.1.5";
+        version = "2.1.6";
         id = "carousel-block";
-        hash = "sha256-uy9f1RgpI92bEKCvmmQxecBzkhvrJUvzD21TrlhzqoE=";
+        hash = "sha256-ShNEhWD9mE4i1R1EcLy6BqTFlvYQ3xHhU3g5JS7eLy8=";
       };
       modify-profile-fields = self.callPackage self.mkWpPlugin {
         pname = "wp-modify-profile-fields";
