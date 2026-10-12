@@ -94,6 +94,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
     homepage = "https://github.com/Cisien/meshcoretomqtt";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ bartoostveen ];
-    mainProgram = "meshcoretomqtt";
+    mainProgram = "mctomqtt";
   };
 })
