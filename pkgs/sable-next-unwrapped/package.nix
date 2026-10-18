@@ -72,7 +72,8 @@ stdenv.mkDerivation (finalAttrs: {
   env = {
     VITE_BUILD_HASH = finalAttrs.src.rev;
     SABLE_BUILD_FLAVOR = "stable";
-  } // lib.optionalAttrs (!withDeepfilternet) {
+  }
+  // lib.optionalAttrs (!withDeepfilternet) {
     SABLE_SKIP_DEEPFILTERNET = true;
   };
 
