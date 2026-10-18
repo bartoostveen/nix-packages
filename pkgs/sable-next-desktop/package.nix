@@ -95,6 +95,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     atk
     cairo
     dbus
+    desktop-file-utils
     gdk-pixbuf
     glib
     gtk3
