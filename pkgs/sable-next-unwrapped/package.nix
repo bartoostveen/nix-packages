@@ -6,6 +6,7 @@
   nix-update-script,
   fetchFromForgejo,
   fetchPnpmDeps,
+  fetchpatch,
   pnpm_12,
   pnpmConfigHook,
   nodejs_26,
@@ -35,6 +36,13 @@ stdenv.mkDerivation (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-J5IIDdw9DLHBV7npugJeQ7U/4q11nRkSy/p7kzEBBMU=";
   };
+
+  patches = [
+    (fetchpatch {
+      url = "https://git.sable.moe/SableClient/sable-next/pulls/1419.patch";
+      hash = "sha256-Az8qTSyipecCV18RgVbdhewidkVIFd7HXKwVRGXU2NM=";
+    })
+  ];
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit (finalAttrs) src;
