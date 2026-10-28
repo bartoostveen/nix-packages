@@ -13,7 +13,7 @@
   wasm-bindgen-cli_0_2_129,
   llvmPackages,
   binaryen,
-  withDeepfilternet ? true,
+  withDeepfilternet ? false,
 }:
 
 let
