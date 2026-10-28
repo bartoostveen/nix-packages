@@ -6,7 +6,6 @@
   nix-update-script,
   fetchFromForgejo,
   fetchPnpmDeps,
-  fetchpatch,
   pnpm_12,
   pnpmConfigHook,
   nodejs_26,
