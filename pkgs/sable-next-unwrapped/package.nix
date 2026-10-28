@@ -37,20 +37,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-3XDXo3WqxO/IVy6twUY8gnbJvKdkMrIf8NpaEChCSQg=";
   };
 
-  patches = [
-    (fetchpatch {
-      url = "https://git.sable.moe/SableClient/sable-next/pulls/1419.patch";
-      hash = "sha256-Az8qTSyipecCV18RgVbdhewidkVIFd7HXKwVRGXU2NM=";
-    })
-  ];
-
   cargoDeps = rustPlatform.fetchCargoVendor {
     inherit (finalAttrs) src;
     hash = "sha256-YOWeJM2N1tz1y97jIZjgBufO8R4lPqkjnllp9DoX4I4=";
   };
 
   postPatch = lib.optionalString withDeepfilternet ''
-    cp --no-preserve all -r ${finalAttrs.deepfilternet} static/deepfilternet3
+    cp --no-preserve all -r ${finalAttrs.passthru.deepfilternet} static/deepfilternet3
   '';
 
   nativeBuildInputs = [
@@ -99,9 +92,10 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  inherit deepfilternet;
-
-  passthru.updateScript = nix-update-script { };
+  passthru = {
+    updateScript = nix-update-script { };
+    inherit deepfilternet;
+  };
 
   meta = {
     description = "Sable rewrite in Rust and Svelte. An almost stable Matrix client";
