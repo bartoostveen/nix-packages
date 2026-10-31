@@ -21,6 +21,10 @@ jobs:
         env:
           INPUT_FILTER: ${{ inputs.package_filter }}
         run: |
+          # Ensure we have in-tree update scripts
+          # TODO: fix this (seems unneccesary)
+          nix-build -A wordpressPackages.pluginUpdateScript
+
           updatables=$(nix eval --raw .#_bartPackages.updatablesJson)
           if [[ -n "$INPUT_FILTER" ]]; then
             echo "Applying package filter regex: $INPUT_FILTER"
