@@ -16,23 +16,83 @@ in
 makeScope newScope (
   self:
   recurseIntoAttrs {
+    pluginUpdateScript = self.callPackage (
+      {
+        writeShellApplication,
+        curl,
+        jq,
+        nix-update,
+      }:
+
+      writeShellApplication {
+        name = "wordpress-update-plugin";
+
+        runtimeInputs = [
+          curl
+          jq
+          nix-update
+        ];
+
+        text = ''
+          plugin_id="$1"
+          shift
+
+          : "''${UPDATE_NIX_ATTR_PATH:?Missing UPDATE_NIX_ATTR_PATH}"
+
+          version="$(
+            curl -fsSG \
+              'https://api.wordpress.org/plugins/info/1.2/' \
+              --data-urlencode 'action=plugin_information' \
+              --data-urlencode "request[slug]=$plugin_id" |
+              jq -er '.version'
+          )"
+
+          echo "Updating $plugin_id to $version"
+
+          args=()
+
+          if [[ "''${UPDATE_NIX_FLAKE:-}" == "1" ]]; then
+            args+=(--flake)
+          fi
+
+          nix-update \
+            "''${args[@]}" \
+            --version="$version" \
+            "$@" \
+            "$UPDATE_NIX_ATTR_PATH"
+        '';
+      }
+    ) { };
+
     mkWpPlugin =
       {
+        lib,
         stdenv,
         fetchzip,
         pname,
         id,
         version,
         hash,
+        pluginUpdateScript,
         url ? "https://downloads.wordpress.org/plugin/${id}.${version}.zip",
       }:
 
       stdenv.mkDerivation {
-        inherit pname version;
+        inherit
+          pname
+          version
+          ;
+
         src = fetchzip {
           inherit url hash;
         };
+
         installPhase = "mkdir -p $out; cp -R * $out/";
+
+        passthru.updateScript = [
+          (lib.getExe pluginUpdateScript)
+          id
+        ];
       };
 
     plugins = {
