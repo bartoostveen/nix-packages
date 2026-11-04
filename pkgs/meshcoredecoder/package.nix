@@ -49,5 +49,6 @@ pythonPackages.buildPythonPackage (finalAttrs: {
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ bartoostveen ];
     platforms = lib.platforms.all;
+    mainProgram = "meshcore-decode";
   };
 })
