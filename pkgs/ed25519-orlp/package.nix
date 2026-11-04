@@ -10,7 +10,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
   version = "0.1.3";
 
   pyproject = true;
-  __structuredAttrs = true;
 
   src = fetchPypi {
     pname = "ed25519_orlp";
