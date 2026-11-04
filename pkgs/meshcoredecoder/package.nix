@@ -7,7 +7,7 @@
 let
   pythonPackages = python314Packages;
 in
-pythonPackages.buildPythonPackage (finalAttrs: {
+pythonPackages.buildPythonApplication (finalAttrs: {
   pname = "meshcoredecoder";
   version = "0.3.2";
   pyproject = true;
