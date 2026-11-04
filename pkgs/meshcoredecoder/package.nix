@@ -12,9 +12,6 @@ pythonPackages.buildPythonPackage (finalAttrs: {
   version = "0.3.2";
   pyproject = true;
 
-  __structuredAttrs = true;
-  strictDeps = true;
-
   src = pythonPackages.fetchPypi {
     inherit (finalAttrs) pname version;
     hash = "sha256-QF0FZzU5HZ62maUm1sQtT9QglNVUf94ivBLbXUVEqQQ=";
