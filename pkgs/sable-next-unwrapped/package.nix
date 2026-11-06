@@ -1,6 +1,5 @@
 {
   lib,
-  callPackage,
   stdenv,
   rustPlatform,
   nix-update-script,
