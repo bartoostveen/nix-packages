@@ -115,6 +115,7 @@ makeScope newScope (
         ''
       ) { };
       gutenberg = self.callPackage ../pkgs/gutenberg/package.nix { };
+      wp-oidc-roles = self.callPackage ../pkgs/wp-oidc-roles/package.nix { };
     }
     // mapAttrs (_: self.callPackage self.mkWpPlugin) {
       antispam-bee = {
