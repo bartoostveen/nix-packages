@@ -9,18 +9,12 @@ php.buildComposerProject2 (finalAttrs: {
   pname = "oidc-wp-roles";
   version = "1.0.3";
 
-  src = lib.cleanSourceWith {
-    src = fetchFromForgejo {
-      domain = "git.bartoostveen.nl";
-      owner = "bart";
-      repo = "oidc-wp-roles";
-      tag = "v${finalAttrs.version}";
-      hash = "sha256-8Ka/8se1Ga7a65tGKTuvq3IOcGOFlhWwc90a1VPPXmk=";
-    };
-    filter =
-      path: type:
-      type != "regular"
-      || builtins.match ".*(\\.js.*|\\.css.*|\\.php.*|composer\\.(json|lock))" path != null;
+  src = fetchFromForgejo {
+    domain = "git.bartoostveen.nl";
+    owner = "bart";
+    repo = "oidc-wp-roles";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-8Ka/8se1Ga7a65tGKTuvq3IOcGOFlhWwc90a1VPPXmk=";
   };
 
   vendorHash = "sha256-OaMAStgzzHwxrSzPOhI5H7J0GXsBU6nIBNqbJCWTtUY=";
