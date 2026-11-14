@@ -7,7 +7,7 @@
 
 php.buildComposerProject2 (finalAttrs: {
   pname = "oidc-wp-roles";
-  version = "1.0.2";
+  version = "1.0.3";
 
   src = lib.cleanSourceWith {
     src = fetchFromForgejo {
@@ -23,7 +23,7 @@ php.buildComposerProject2 (finalAttrs: {
       || builtins.match ".*(\\.js.*|\\.css.*|\\.php.*|composer\\.(json|lock))" path != null;
   };
 
-  vendorHash = "sha256-Y7+yEGcVwS8uKk8AHxfL8ZXDCpUaibg3Q2+Fky1HF70=";
+  vendorHash = "sha256-OaMAStgzzHwxrSzPOhI5H7J0GXsBU6nIBNqbJCWTtUY=";
 
   installPhase = ''
     runHook preInstall
@@ -31,7 +31,9 @@ php.buildComposerProject2 (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {
+    extraArgs = [ "--url=\"https://git.bartoostveen.nl/bart/oidc-wp-roles.git\"" ];
+  };
 
   meta = {
     description = "Extension to oidc-wp/openid-connect-generic plugin that maps 3rd party service data as WordPress user data. Optionally restrict access to content";
