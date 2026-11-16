@@ -61,6 +61,8 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   env = {
+    AR_wasm32_unknown_unknown = lib.getExe' llvmPackages.bintools-unwrapped "llvm-ar";
+    CC_wasm32_unknown_unknown = lib.getExe llvmPackages.clang-unwrapped;
     VITE_BUILD_HASH = finalAttrs.src.rev;
     SABLE_BUILD_FLAVOR = "stable";
     SABLE_FOSS = 1;
