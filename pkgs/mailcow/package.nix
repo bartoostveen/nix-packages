@@ -7,7 +7,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "mailcow";
-  version = "2026-11b";
+  version = "2026-11";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -16,7 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "mailcow";
     repo = "mailcow-dockerized";
     tag = finalAttrs.version;
-    hash = "sha256-KbDJnmfpNyJkQVqLm8Ub8ZQvTYRuBxoimCCN48rRPDA=";
+    hash = "sha256-k6i1NFwhOTsoIEQxPTRLAL0VLBITBRWlKqUD5DflraA=";
   };
 
   installPhase = ''
