@@ -9,7 +9,7 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "autokuma";
-  version = "2.1.0-rc.2";
+  version = "2.0.0";
 
   __structuredAttrs = true;
   strictDeps = true;
@@ -18,10 +18,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
     owner = "BigBoot";
     repo = "AutoKuma";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-1vp4g1EZVFrx0HotnXx77MEUwA4bK61A1HnXtbjvjPs=";
+    hash = "sha256-6w0bHw2mHkZZ3ar5jD+g29S5LjGSrEM+dgs1kN7Mpyk=";
   };
 
-  cargoHash = "sha256-TG0RQ+SE/x4SKXFAzWQlu2377USyTPu5Z6oaZ9Omh9M=";
+  cargoHash = "sha256-KSoo4f9MddGLGD2x9U3zFDHYreaAaNpBks9Udnq4Pa4=";
 
   patches = [
     ./no-doctest.patch
